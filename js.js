@@ -3,7 +3,7 @@ function gameBoard(){
   const rows = 3;
   const columns = 3;
   const board = [];
-  // for loop for 2d arrays
+  
   for(i = 0; i < rows; i++){
     board[i] = [];
       for(j = 0; j < columns; j++){
@@ -34,7 +34,6 @@ function gameBoard(){
 
 
 function createPlayers(player1 = "Player One", player2 = "Player Two"){
-  //creates two autonamed players
   return [
     { name: player1, mark: "X" }, 
     { name: player2, mark: "O" }
@@ -55,9 +54,9 @@ const playerSwitcher = function() {
 };
 
 //call for the player of current round
-const newRound = function(){
+const turnDeclaration = function(){
 console.log(`It's ${activePlayer.name}'s turn`);
-}
+};
 
 //used to mark the board
 const playRound = function(row, column) {
@@ -67,24 +66,36 @@ const marked = board.addMark(activePlayer.mark, row, column)
 const victoryChecker = function(){
   const treeXInARow = marked.join(" ").includes("X,X,X");
   const treeOInARow = marked.join(" ").includes("O,O,O");
-  const tie = marked.join("").includes(0)
+  const hasZero = marked.join("").includes(0);
+  const declareTurn = turnDeclaration;
 
   let gameFinisher = () => {
     playerSwitcher();
-    console.log(`Game over, ${activePlayer.name} wins!`);
-  }
+    const replay = confirm(`${activePlayer.name} wins! Play again?`);
+    if (replay) {
+      return {}
+    }
+  };
 
   let gameTie = () => {
-    console.log(`Game over, it's a tie!`)
-  }
-
-  //checks columns
-  for (i = 0; i < 3; i++){
-    marked[0][i] != 0 &&
-    marked[0][i] == marked[1][i] &&
-    marked[1][i] == marked[2][i] ?
-    gameFinisher() : false
+    const replay = confirm(`Game over, it's a tie! Play again?`);
+    if (replay) {
+      return { }
+    }
   };
+
+//checks columns
+let col = false;
+
+  for (i = 0; i < 3; i++){
+    if( marked[0][i] != 0 &&
+        marked[0][i] == marked[1][i] &&
+        marked[1][i] == marked[2][i]) {
+        col = true;
+        break;
+        };
+  };
+
 //checks rows
   if (treeOInARow || treeXInARow) {
     gameFinisher();
@@ -98,29 +109,26 @@ const victoryChecker = function(){
     marked[0][2] == marked[1][1] &&
     marked[1][1] == marked[2][0]) {
     gameFinisher();
-  } else if(marked[0][0] != 0) {
-    for (i = 0; i < 3; i++){
-    marked[0][i] != 0 &&
-    marked[0][i] == marked[1][i] &&
-    marked[1][i] == marked[2][i] ?
-    gameFinisher() : false
-  };
-  } else if (tie == false){
+  } else if (col == true){
+    gameFinisher();
+  } else if(hasZero == false) {
     gameTie();
+  } else {
+    declareTurn();
   };
   
 };
 
+
 if (marked){
   playerSwitcher();
-  newRound();
   victoryChecker();
   return marked
 }
 
 };
 
-newRound();
+turnDeclaration();
 
 return { playRound }
 };
