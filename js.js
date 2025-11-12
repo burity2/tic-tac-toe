@@ -4,7 +4,7 @@ function gameBoard(){
   const columns = 3;
   const board = [];
   
-  for(i = 0; i < rows; i++){
+  for(let i = 0; i < rows; i++){
     board[i] = [];
       for(j = 0; j < columns; j++){
         board[i].push(0);
@@ -40,11 +40,11 @@ function createPlayers(player1 = "Player One", player2 = "Player Two"){
   ];
 };
 
-function GameControl(){
+function gameControl(){
 
 //create the players and calls the new gameboard instance
 const playerArr = createPlayers();
-const board = gameBoard();
+let board = gameBoard();
 
 //switch between players
 let activePlayer = playerArr[0];
@@ -53,16 +53,22 @@ const playerSwitcher = function() {
   activePlayer = activePlayer === playerArr[0] ? playerArr[1] : playerArr[0];
 };
 
+const resetGame = function(){
+  board = gameBoard();
+  activePlayer = playerArr[0]
+  turnDeclaration();
+}
+
 //call for the player of current round
 const turnDeclaration = function(){
 console.log(`It's ${activePlayer.name}'s turn`);
 };
 
 //used to mark the board
-const playRound = function(row, column) {
-const marked = board.addMark(activePlayer.mark, row, column)
+const playRound = function(row, column){
+let marked = board.addMark(activePlayer.mark, row, column)
 
-//checks for vitories
+//checks for victories
 const victoryChecker = function(){
   const treeXInARow = marked.join(" ").includes("X,X,X");
   const treeOInARow = marked.join(" ").includes("O,O,O");
@@ -73,21 +79,23 @@ const victoryChecker = function(){
     playerSwitcher();
     const replay = confirm(`${activePlayer.name} wins! Play again?`);
     if (replay) {
-      return {}
+      resetGame();
+      return;
     }
   };
 
   let gameTie = () => {
     const replay = confirm(`Game over, it's a tie! Play again?`);
     if (replay) {
-      return { }
+      resetGame();
+      return;
     }
   };
 
 //checks columns
 let col = false;
 
-  for (i = 0; i < 3; i++){
+  for (let i = 0; i < 3; i++){
     if( marked[0][i] != 0 &&
         marked[0][i] == marked[1][i] &&
         marked[1][i] == marked[2][i]) {
@@ -119,12 +127,12 @@ let col = false;
   
 };
 
-
+//switch players and checks for victories when a legal move is played, returning the marked board
 if (marked){
   playerSwitcher();
   victoryChecker();
   return marked
-}
+};
 
 };
 
@@ -133,4 +141,7 @@ turnDeclaration();
 return { playRound }
 };
 
-let test = GameControl();
+(function () {
+playGame = gameControl();
+return playGame
+})();
