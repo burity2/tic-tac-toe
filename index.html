@@ -4,9 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tik Tak Twoe</title>
+    <link rel="stylesheet" href="./style.css">
     <script src="./js.js" defer></script>
 </head>
 <body>
-    
+    <div id="container">
+        <div id="player-area">
+            <div class="player-data">
+                <div class="player-score" id="player-one-score">0</div>
+                <div class="player-name" id="player-one-name">player 1</div>
+            </div>
+            <div class="player-data">
+                <div class="player-score" id="player-two-score">0</div>
+                <div class="player-name" id="player-two-name">player 2</div>
+            </div>
+        </div>
+        <div id="game-area"><button class="game-btn" id="00">&nbsp</button><button class="game-btn" id="01">&nbsp</button><button class="game-btn" id="02">&nbsp</button><button class="game-btn" id="10">&nbsp</button><button class="game-btn" id="11">&nbsp</button><button class="game-btn" id="12">&nbsp</button><button class="game-btn" id="20">&nbsp</button><button class="game-btn" id="21">&nbsp</button><button class="game-btn" id="22">&nbsp</button></div>
+        <div id="ctrl-area"><button class="ctrl-btn" id="reset-btn">reset</button><button class="ctrl-btn" id="new-game-btn">new game</button></div>
+    </div>
 </body>
 </html>
