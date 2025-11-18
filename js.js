@@ -102,7 +102,20 @@ const victoryChecker = function(){
   };
 
   let gameTie = () => {
-    console.log(`It's a tie!`);
+    playerSwitcher();
+    setTimeout(() => {
+    let replay = confirm(`It's a tie! Play again?`, 1000);
+    if (replay == true) {
+      resetGame();
+      let btns = document.getElementsByClassName("game-btn");
+        for (let i = 0; i < btns.length; i++){
+          btns[i].innerHTML = "&nbsp"
+      };
+    } else {
+      let gamebtns = document.getElementById("game-area");
+      gamebtns.style.pointerEvents = "none";
+      }
+    }, 0)
   };
 
 //checks columns
